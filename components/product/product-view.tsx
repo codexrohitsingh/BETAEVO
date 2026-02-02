@@ -26,11 +26,11 @@ interface ProductViewProps {
 }
 
 const COLORS = [
-  { name: 'Blue', class: 'bg-[#1a365d]', image: '/photos/product-3.webp' },
-  { name: 'Grey', class: 'bg-[#718096]', image: '/photos/product-2.webp' },
+  { name: 'Blue', class: 'bg-[#1a365d]', image:'/photos/product-2.webp' },
+  { name: 'Grey', class: 'bg-[#718096]', image:  '/photos/product-3.webp'},
   { name: 'Brown', class: 'bg-[#5D4037]', image: '/photos/product-1.webp' },
-  { name: 'Light Blue', class: 'bg-[#90cdf4]', image: '/photos/product-4.webp' },
-  { name: 'Black', class: 'bg-[#000000]', image: '/photos/product-5.webp' },
+  { name: 'Light Blue', class: 'bg-[#90cdf4]', image: '/photos/product-5.webp' },
+  { name: 'Black', class: 'bg-[#000000]', image:  '/photos/product-4.webp'},
 ];
 
 export function ProductView({ product }: ProductViewProps) {
