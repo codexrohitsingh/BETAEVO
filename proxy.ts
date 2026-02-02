@@ -22,6 +22,6 @@ export const config = {
      * - product (public product pages)
      * - $ (homepage - exact match needs handling, usually implicitly handled if not matched by regex, but regex matches "everything except...", so homepage "/" matches "everything" unless excluded)
      */
-    "/((?!auth/signin|api|_next/static|_next/image|favicon.ico|images|products|photos|category|product|$).*)",
+    "/((?!auth/signin|api|_next/static|_next/image|favicon.ico|images|products|photos).*)",
   ],
 };
