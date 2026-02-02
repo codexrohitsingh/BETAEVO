@@ -9,12 +9,16 @@ export const authOptions: AuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+      allowDangerousEmailAccountLinking: true,
     }),
   ],
   session: {
     strategy: "jwt",
   },
   callbacks: {
+    async signIn({ user, account }) {
+      return true
+    },
     jwt: async ({ token, user }) => {
       if (user) {
         token.id = user.id;
@@ -29,6 +33,12 @@ export const authOptions: AuthOptions = {
       }
       return session;
     },
+  },
+  events: {
+    async linkAccount({ user, account }) {
+      // optional logging
+      console.log(`User ${user.email} linked with ${account.provider}`)
+    }
   },
   pages: {
     signIn: '/auth/signin',
