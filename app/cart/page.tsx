@@ -36,7 +36,7 @@ export default async function CartPage() {
                             <div className="relative w-24 h-24 bg-white rounded-lg overflow-hidden shrink-0">
                                 <Image 
                                     src={item.product.imagePath} 
-                                    alt={item.product.name}
+                                    alt={item.product.name || 'Product'}
                                     fill
                                     className="object-contain"
                                 />
