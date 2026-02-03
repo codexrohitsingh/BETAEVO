@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { purchaseProduct } from '@/app/actions/product';
+import { addToCart } from '@/app/actions/product';
 import { cn } from '@/lib/utils';
 
 interface AddToCartButtonProps {
@@ -13,6 +14,7 @@ interface AddToCartButtonProps {
 }
 
 export function AddToCartButton({ productId, stock, className, compact = false }: AddToCartButtonProps) {
+  const router = useRouter();
   const [buying, setBuying] = useState(false);
 
   async function handleBuy(e: React.MouseEvent) {
@@ -20,13 +22,13 @@ export function AddToCartButton({ productId, stock, className, compact = false }
     if (!productId) return;
     
     setBuying(true);
-    const result = await purchaseProduct(productId);
+    const result = await addToCart(productId);
     setBuying(false);
 
     if (result.success) {
-      alert(`Purchase successful! Stock remaining: ${result.newStock}`);
+      router.push('/cart');
     } else {
-      alert(`Purchase failed: ${result.error}`);
+      alert(`Failed to add to cart: ${result.error}`);
     }
   }
 

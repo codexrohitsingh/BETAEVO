@@ -3,7 +3,8 @@
 import { 
   scanPhotosImpl, 
   updateProductImpl, 
-  purchaseProductImpl 
+  purchaseProductImpl,
+  addToCartImpl
 } from '@/lib/product-service';
 
 export async function scanPhotos() {
@@ -17,3 +18,8 @@ export async function updateProduct(id: string, formData: FormData) {
 export async function purchaseProduct(id: string) {
   return purchaseProductImpl(id);
 }
+
+export async function addToCart(id: string) {
+  return addToCartImpl(id);
+}
+

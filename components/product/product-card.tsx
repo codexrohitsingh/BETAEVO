@@ -17,6 +17,7 @@ interface Product {
   rating: number;
   reviewCount: number;
   originalPrice?: number | null;
+  slug?: string;
 }
 
 interface ProductCardProps {
@@ -24,9 +25,11 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const href = `/product/${product.slug || product.id}`;
+  
   return (
     <div className="group block bg-white rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg border border-gray-100">
-      <Link href={`/product/${product.id}`} className="block">
+      <Link href={href} className="block">
         <div className="relative aspect-square w-full bg-white p-6 flex items-center justify-center">
           {product.discountPercentage > 0 && (
             <div className="absolute top-2 left-2 bg-brand-orange text-white text-xs font-bold px-2 py-1 rounded-full z-10">
@@ -45,7 +48,7 @@ export function ProductCard({ product }: ProductCardProps) {
       </Link>
       
       <div className="p-4 space-y-2">
-         <Link href={`/product/${product.id}`} className="block">
+         <Link href={href} className="block">
             <h3 className="font-bold text-brand-black text-lg hover:text-brand-orange transition-colors">{product.name || 'Untitled Product'}</h3>
          </Link>
          <p className="text-xs text-gray-500 truncate">{product.description || 'No description'}</p>
@@ -75,7 +78,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 stock={product.stock}
                 className="w-auto text-xs h-9 px-6"
             />
-            <Link href={`/product/${product.id}`} className="text-xs text-brand-orange underline underline-offset-2">Learn more</Link>
+            <Link href={href} className="text-xs text-brand-orange underline underline-offset-2">Learn more</Link>
          </div>
       </div>
     </div>
