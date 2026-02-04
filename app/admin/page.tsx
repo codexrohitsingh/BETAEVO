@@ -19,6 +19,13 @@ export default async function AdminPage() {
     orderBy: { createdAt: 'desc' }
   });
 
+  const adminProducts = products.map(p => ({
+    ...p,
+    price: p.price ? Number(p.price) : null,
+    originalPrice: p.originalPrice ? Number(p.originalPrice) : null,
+    discountedPrice: p.discountedPrice ? Number(p.discountedPrice) : null,
+  }));
+
   return (
     <div className="container mx-auto p-8">
       <div className="flex justify-between items-center mb-8">
@@ -38,7 +45,7 @@ export default async function AdminPage() {
       </div>
 
       <h2 className="text-2xl font-semibold mb-4">Products ({products.length})</h2>
-      <AdminProductList products={products} />
+      <AdminProductList products={adminProducts} />
     </div>
   );
 }
