@@ -18,7 +18,7 @@ export default function SetupButton() {
       } else {
         alert('Error: ' + result.message);
       }
-    } catch (error) {
+    } catch {
       alert('Failed to run setup');
     } finally {
       setLoading(false);

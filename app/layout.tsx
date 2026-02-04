@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BetaEvo Electronics | Premium Smart Tech",
-  description: "Experience the future with BetaEvo Electronics. Smartwatches, Audio, and more.",
+  title: "BetaEvo | Premium Smart Tech",
+  description: "Experience the future with BetaEvo. Smartwatches, Audio, and more.",
 };
 
 import { Providers } from "./providers";

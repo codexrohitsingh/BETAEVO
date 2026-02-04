@@ -41,7 +41,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       
       {/* Footer Placeholder */}
       <footer className="py-12 border-t border-gray-100 text-center text-gray-500 bg-white mt-12">
-        <p>© 2026 BetaEvo Electronics. All rights reserved.</p>
+        <p>© 2026 BetaEvo. All rights reserved.</p>
       </footer>
     </main>
   );

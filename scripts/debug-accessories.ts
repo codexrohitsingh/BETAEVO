@@ -33,7 +33,12 @@ async function main() {
   for (const product of products) {
     console.log(`Checking product: ${product.name} (ID: ${product.id})`);
     
-    const updates: any = {};
+    type ProductUpdates = {
+      categoryId?: string;
+      imagePath?: string;
+      name?: string;
+    };
+    const updates: ProductUpdates = {};
     let needsUpdate = false;
 
     // Check Category assignment
@@ -49,7 +54,7 @@ async function main() {
     // If it's just 'product-1.webp', we prepend '/photos/'.
     // If it's 'photos/product-1.webp', we prepend '/'.
     
-    let currentImage = product.imagePath;
+    const currentImage = product.imagePath;
     let newImage = currentImage;
 
     if (!currentImage.startsWith('/')) {

@@ -5,7 +5,17 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import Image from "next/image";
 
-export default function AdminProductList({ products }: { products: any[] }) {
+type AdminProduct = {
+  id: string;
+  imagePath: string;
+  name: string | null;
+  description: string | null;
+  price: number | null;
+  discountPercentage: number;
+  stock: number;
+};
+
+export default function AdminProductList({ products }: { products: AdminProduct[] }) {
   return (
     <div className="grid gap-6">
       {products.map(product => (
@@ -15,7 +25,7 @@ export default function AdminProductList({ products }: { products: any[] }) {
   );
 }
 
-function ProductEditor({ product }: { product: any }) {
+function ProductEditor({ product }: { product: AdminProduct }) {
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(formData: FormData) {

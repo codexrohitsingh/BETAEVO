@@ -10,10 +10,9 @@ interface AddToCartButtonProps {
   productId: string;
   stock: number;
   className?: string;
-  compact?: boolean;
 }
 
-export function AddToCartButton({ productId, stock, className, compact = false }: AddToCartButtonProps) {
+export function AddToCartButton({ productId, stock, className }: AddToCartButtonProps) {
   const router = useRouter();
   const [buying, setBuying] = useState(false);
 

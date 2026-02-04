@@ -1,6 +1,6 @@
 
 import Image from 'next/image';
-import { Card } from '@/components/ui/card';
+
 import { Star } from 'lucide-react';
 import Link from 'next/link';
 import { AddToCartButton } from '@/components/product/add-to-cart-button';

@@ -19,7 +19,7 @@ export default async function Home() {
   });
 
   // Convert Decimals to numbers for client component
-  const serializeProduct = (p: any) => ({
+  const serializeProduct = <T extends { price?: unknown; discountedPrice?: unknown; originalPrice?: unknown }>(p: T) => ({
     ...p,
     price: p.price ? Number(p.price) : null,
     discountedPrice: p.discountedPrice ? Number(p.discountedPrice) : null,
@@ -41,7 +41,7 @@ export default async function Home() {
       
       {/* Footer Placeholder */}
       <footer className="py-12 border-t border-gray-100 text-center text-gray-500 bg-white">
-        <p>© 2026 BetaEvo Electronics. All rights reserved.</p>
+        <p>© 2026 BetaEvo. All rights reserved.</p>
       </footer>
     </main>
   );

@@ -15,7 +15,7 @@ if (connectionString) {
       url.searchParams.set('uselibpqcompat', 'true')
       poolConfig.connectionString = url.toString()
     }
-  } catch (_e) {
+  } catch {
     // If the URL is invalid, we fallback to the original string
     console.warn('Invalid DATABASE_URL format, using original string')
   }

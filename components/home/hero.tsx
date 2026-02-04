@@ -64,11 +64,11 @@ export function Hero() {
     return () => clearInterval(interval);
   }, [slides.length]);
 
-  const slide = slides[active];
+  
 
   return (
-  <section className="relative w-full px-4 md:px-8">
-  <div className="relative mx-auto max-w-[1500px] overflow-hidden rounded-[36px] h-[600px] md:h-[700px] lg:h-[800px]">
+  <section className="relative w-full px-2 md:px-8">
+  <div className="relative mx-auto max-w-[1500px] overflow-hidden rounded-[20px] md:rounded-[36px] h-[650px] md:h-[700px] lg:h-[800px]">
 
     {/* Slides */}
     {slides.map((s, i) => (
@@ -77,45 +77,48 @@ export function Hero() {
         className={`
           absolute inset-0 transition-opacity duration-1000 ease-in-out
           ${i === active ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"}
-          rounded-[36px] px-8 md:px-16 py-20 md:py-28
+          rounded-[20px] md:rounded-[36px] px-6 md:px-16 py-12 md:py-28
           bg-gradient-to-r ${s.bg}
         `}
       >
-        <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 md:gap-16 h-full">
           {/* LEFT CONTENT */}
-          <div className={`max-w-xl space-y-6 ${s.textColor}`}>
-            <span className="text-sm font-semibold tracking-widest uppercase opacity-80">
+          <div className={`max-w-xl space-y-4 md:space-y-6 ${s.textColor} flex flex-col justify-center text-center lg:text-left z-20`}>
+            <span className="text-xs md:text-sm font-semibold tracking-widest uppercase opacity-80">
               {s.brand}
             </span>
-            <h1 className="text-4xl md:text-5xl xl:text-6xl font-extrabold leading-tight">
+            <h1 className="text-3xl md:text-5xl xl:text-6xl font-extrabold leading-tight">
               {s.title}
               <br />
               <span className="font-medium opacity-80">{s.highlight}</span>
             </h1>
-            <p className="text-lg opacity-80">{s.subtitle}</p>
-            <button
-              className={`
-                mt-6 inline-flex items-center justify-center
-                rounded-full ${s.ctaBg} px-12 py-4
-                text-sm font-semibold tracking-wide
-                shadow-xl backdrop-blur-sm
-                transition-all duration-300 transform
-                hover:-translate-y-1 hover:scale-105
-              `}
-            >
-              SHOP NOW
-            </button>
+            <p className="text-sm md:text-lg opacity-80">{s.subtitle}</p>
+            <div className="flex justify-center lg:justify-start">
+              <button
+                className={`
+                  mt-4 md:mt-6 inline-flex items-center justify-center
+                  rounded-full ${s.ctaBg} px-8 md:px-12 py-3 md:py-4
+                  text-sm font-semibold tracking-wide
+                  shadow-xl backdrop-blur-sm
+                  transition-all duration-300 transform
+                  hover:-translate-y-1 hover:scale-105
+                `}
+              >
+                SHOP NOW
+              </button>
+            </div>
           </div>
 
           {/* RIGHT IMAGE */}
-          <div className="relative h-[420px] md:h-[520px] lg:h-[600px]">
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent rounded-[36px] pointer-events-none z-10" />
+          <div className="relative h-[250px] md:h-[520px] lg:h-[600px] w-full flex items-center justify-center">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent rounded-[36px] pointer-events-none z-10 lg:hidden" />
             <Image
               src={s.image}
               alt="Hero product"
               fill
               priority
               className="object-contain"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </div>
         </div>
@@ -125,7 +128,7 @@ export function Hero() {
     {/* LEFT ARROW */}
     <button
       onClick={prev}
-      className="absolute z-20 left-5 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/40 text-white flex items-center justify-center hover:bg-black/70 shadow-lg transition"
+      className="absolute z-30 left-2 md:left-5 top-1/2 -translate-y-1/2 h-8 w-8 md:h-12 md:w-12 rounded-full bg-black/40 text-white flex items-center justify-center hover:bg-black/70 shadow-lg transition"
     >
       <ChevronLeft size={20} />
     </button>
@@ -133,7 +136,7 @@ export function Hero() {
     {/* RIGHT ARROW */}
     <button
       onClick={next}
-      className="absolute z-20 right-5 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/40 text-white flex items-center justify-center hover:bg-black/70 shadow-lg transition"
+      className="absolute z-30 right-2 md:right-5 top-1/2 -translate-y-1/2 h-8 w-8 md:h-12 md:w-12 rounded-full bg-black/40 text-white flex items-center justify-center hover:bg-black/70 shadow-lg transition"
     >
       <ChevronRight size={20} />
     </button>

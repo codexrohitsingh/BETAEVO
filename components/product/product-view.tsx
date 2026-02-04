@@ -182,7 +182,7 @@ export function ProductView({ product }: ProductViewProps) {
         <div className="space-y-8">
           {/* Header */}
           <div className="space-y-4">
-            <h1 className="text-4xl md:text-5xl font-bold text-brand-black tracking-tight leading-tight">
+            <h1 className="text-3xl md:text-5xl font-bold text-brand-black tracking-tight leading-tight">
               {product.name || 'ClassicCraft Leather Straps 22mm'}
             </h1>
             
@@ -190,13 +190,13 @@ export function ProductView({ product }: ProductViewProps) {
             <div className="flex items-baseline gap-4">
               {product.price ? (
                   <>
-                      <span className="text-3xl font-bold text-brand-black">₹{Number(product.discountedPrice || product.price).toLocaleString()}</span>
+                      <span className="text-2xl md:text-3xl font-bold text-brand-black">₹{Number(product.discountedPrice || product.price).toLocaleString()}</span>
                       {product.discountPercentage > 0 && (
-                          <span className="text-xl text-gray-400 line-through">₹{Number(product.price).toLocaleString()}</span>
+                          <span className="text-lg md:text-xl text-gray-400 line-through">₹{Number(product.price).toLocaleString()}</span>
                       )}
                   </>
               ) : (
-                  <span className="text-3xl font-bold text-gray-400">Coming Soon</span>
+                  <span className="text-2xl md:text-3xl font-bold text-gray-400">Coming Soon</span>
               )}
             </div>
 

@@ -34,10 +34,6 @@ export function LoadingScreen() {
             <span className="text-4xl md:text-5xl font-bold tracking-tighter text-black italic">
               BetaEvo
             </span>
-            <span className="h-8 w-1 bg-brand-orange rotate-12 mx-1"></span>
-            <span className="text-4xl md:text-5xl font-bold tracking-tighter text-black">
-              ELECTRONICS
-            </span>
           </motion.div>
         </motion.div>
       )}

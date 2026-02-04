@@ -1,12 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import { Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import Link from 'next/link';
-import { AddToCartButton } from '@/components/product/add-to-cart-button';
 import { ProductCard } from '@/components/product/product-card';
 
 interface Product {

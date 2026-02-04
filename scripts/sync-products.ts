@@ -42,7 +42,7 @@ async function main() {
 
     // Check if exists by image path OR slug
     const slug = `product-${path.parse(file).name}`;
-    let existing = await prisma.product.findFirst({
+    const existing = await prisma.product.findFirst({
       where: { 
         OR: [
             { imagePath },

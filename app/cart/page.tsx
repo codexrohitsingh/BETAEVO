@@ -33,7 +33,7 @@ export default async function CartPage() {
 
                     items.map((item) => (
                         <div key={item.id} className="bg-brand-charcoal p-4 rounded-xl flex gap-4">
-                            <div className="relative w-24 h-24 bg-white rounded-lg overflow-hidden shrink-0">
+                            <div className="relative w-20 h-20 md:w-24 md:h-24 bg-white rounded-lg overflow-hidden shrink-0">
                                 <Image 
                                     src={item.product.imagePath} 
                                     alt={item.product.name || 'Product'}
@@ -41,14 +41,14 @@ export default async function CartPage() {
                                     className="object-contain"
                                 />
                             </div>
-                            <div className="flex-1">
-                                <div className="flex justify-between items-start">
-                                    <h3 className="font-medium text-lg">{item.product.name || 'Product'}</h3>
-                                    <p className="text-brand-orange font-bold">
+                            <div className="flex-1 min-w-0">
+                                <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-1 md:gap-4">
+                                    <h3 className="font-medium text-base md:text-lg truncate pr-2">{item.product.name || 'Product'}</h3>
+                                    <p className="text-brand-orange font-bold text-sm md:text-base whitespace-nowrap">
                                         ₹{Number(item.product.discountedPrice || item.product.price).toFixed(2)}
                                     </p>
                                 </div>
-                                <div className="flex items-center gap-4 mt-4">
+                                <div className="flex items-center gap-4 mt-2 md:mt-4">
                                     <div className="flex items-center gap-2 bg-brand-black/50 rounded-lg px-2 py-1">
                                         <button className="px-2 hover:text-brand-orange text-gray-400">-</button>
                                         <span className="text-sm w-4 text-center">{item.quantity}</span>

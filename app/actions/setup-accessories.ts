@@ -32,8 +32,14 @@ export async function setupAccessories() {
     
     let updatedCount = 0;
 
+    type ProductUpdates = {
+      categoryId?: string;
+      imagePath?: string;
+      name?: string;
+    };
+
     for (const p of products) {
-        const updates: any = {};
+        const updates: ProductUpdates = {};
         let needsUpdate = false;
 
         // Assign Category
@@ -43,7 +49,7 @@ export async function setupAccessories() {
         }
 
         // Fix Image Path
-        let currentImage = p.imagePath;
+        const currentImage = p.imagePath;
         let newImage = currentImage;
 
         // Ensure it starts with /photos/
@@ -83,8 +89,9 @@ export async function setupAccessories() {
     revalidatePath('/category/accessories');
     
     return { success: true, message: `Setup complete. Updated ${updatedCount} products.` };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Setup failed:', error);
-    return { success: false, message: error.message };
+    const message = error instanceof Error ? error.message : 'Setup failed';
+    return { success: false, message };
   }
 }

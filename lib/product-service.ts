@@ -81,36 +81,39 @@ export async function scanPhotosImpl() {
 export async function updateProductImpl(id: string, formData: FormData) {
   await checkAdmin();
   try {
-    const data: any = {};
+    const data: Prisma.ProductUpdateInput = {};
     const name = formData.get('name') as string;
     const description = formData.get('description') as string;
     const price = formData.get('price');
     const stock = formData.get('stock');
     const discountPercentage = formData.get('discountPercentage');
 
+    let newPrice: number | undefined;
+    let newDiscount: number | undefined;
+
     if (name) data.name = name;
     if (description) data.description = description;
-    if (price) data.price = parseFloat(price.toString());
+    if (price) {
+      newPrice = parseFloat(price.toString());
+      data.price = newPrice;
+    }
     if (stock) data.stock = parseInt(stock.toString());
     if (discountPercentage) {
-        data.discountPercentage = parseInt(discountPercentage.toString());
-        if (data.price) {
-            data.discountedPrice = data.price * (1 - data.discountPercentage / 100);
+        newDiscount = parseInt(discountPercentage.toString());
+        data.discountPercentage = newDiscount;
+        if (newPrice !== undefined) {
+            data.discountedPrice = newPrice * (1 - newDiscount / 100);
         } else {
-             // If price not updated, need to fetch it? 
-             // For simplicity assuming price is updated or we do a read before write if needed.
-             // But actually Prisma update can access current value? No, not easily in 'data'.
-             // Let's just update what we have.
-             // If we want to recalculate discountedPrice correctly we might need current price.
-             // For now let's just update fields provided.
+            const current = await prisma.product.findUnique({ where: { id }});
+            if (current?.price != null) {
+              const p = Number(current.price);
+              data.discountedPrice = p * (1 - newDiscount / 100);
+            }
         }
     }
 
     // If price changed but not discount, recalculate discountedPrice
     if (price && !discountPercentage) {
-        // We need current discount to calc. 
-        // Let's do a fetch first to be safe or just ignore for now if not critical.
-        // Better:
         const current = await prisma.product.findUnique({ where: { id }});
         if (current) {
             const p = parseFloat(price.toString());
@@ -198,7 +201,7 @@ export async function addToCartImpl(productId: string) {
 
     revalidatePath('/cart');
     return { success: true };
-  } catch (error: any) {
+  } catch (error) {
     console.error("Add to cart error:", error);
     return { success: false, error: "Failed to add to cart" };
   }
@@ -263,8 +266,9 @@ export async function purchaseProductImpl(id: string) {
     revalidatePath(`/product/${id}`);
     
     return { success: true, newStock: result.stock };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Purchase failed:', error);
-    return { success: false, error: error.message || 'Purchase failed' };
+    const message = error instanceof Error ? error.message : 'Purchase failed';
+    return { success: false, error: message };
   }
 }

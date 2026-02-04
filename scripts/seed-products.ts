@@ -1,6 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-import { Pool } from 'pg';
-import { PrismaPg } from '@prisma/adapter-pg';
 import fs from 'fs';
 import path from 'path';
 
@@ -17,7 +15,7 @@ if (!process.env.DATABASE_URL) {
         }
         }
     }
-  } catch (e) {
+  } catch {
     console.warn('.env file not found or could not be read');
   }
 }

@@ -14,7 +14,7 @@ export async function BestSellers() {
   });
 
   // Convert Decimals to numbers for client component
-  const serializeProduct = (p: any) => ({
+  const serializeProduct = <T extends { price?: unknown; discountedPrice?: unknown; originalPrice?: unknown }>(p: T) => ({
     ...p,
     price: p.price ? Number(p.price) : null,
     discountedPrice: p.discountedPrice ? Number(p.discountedPrice) : null,

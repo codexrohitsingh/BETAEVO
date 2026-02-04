@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import { LogoutButton } from "@/components/auth/logout-button";
+import Image from "next/image";
 
 export default async function ProfilePage() {
   const session = await getServerSession(authOptions);
@@ -23,7 +24,14 @@ export default async function ProfilePage() {
         <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
             <div className="flex items-center gap-4 mb-8">
                 {session.user?.image ? (
-                    <img src={session.user.image} alt={session.user.name || "User"} className="w-16 h-16 rounded-full" />
+                    <Image 
+                      src={session.user.image} 
+                      alt={session.user.name || "User"} 
+                      width={64} 
+                      height={64} 
+                      className="rounded-full" 
+                      priority
+                    />
                 ) : (
                     <div className="w-16 h-16 bg-brand-orange rounded-full flex items-center justify-center text-2xl font-bold text-white">
                         {session.user?.name?.[0] || "U"}

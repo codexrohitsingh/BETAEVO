@@ -57,7 +57,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         
         {category.products.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {category.products.map((product: any) => (
+                {category.products.map((product) => (
                     <ProductCard 
                         key={product.id} 
                         product={{

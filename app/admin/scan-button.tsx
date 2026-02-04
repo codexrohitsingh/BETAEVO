@@ -14,6 +14,7 @@ export default function ScanButton() {
     setLoading(false);
     setMessage(result.message || (result.success ? "Success" : "Failed"));
   };
+  
 
   return (
     <div className="flex items-center gap-4">
@@ -23,4 +24,5 @@ export default function ScanButton() {
       {message && <p className="text-sm">{message}</p>}
     </div>
   );
+ 
 }
