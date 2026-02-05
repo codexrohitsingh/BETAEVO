@@ -6,6 +6,9 @@ import { BestSellers } from "@/components/home/best-sellers";
 import { FreshDropsList } from "@/components/fresh-drops/fresh-drops-list";
 import { PromotionalBanner } from "@/components/home/promotional-banner";
 import { prisma } from "@/lib/prisma";
+import fs from "fs";
+import path from "path";
+import Image from "next/image";
 
 export default async function Home() {
   const newReleases = await prisma.product.findMany({
@@ -26,12 +29,44 @@ export default async function Home() {
     originalPrice: p.originalPrice ? Number(p.originalPrice) : null,
   });
 
+  // Read latest 3 photos from /public/photos for Smart Audio showcase
+  const photosDir = path.join(process.cwd(), "public", "photos");
+  let smartAudioPhotos: string[] = [];
+  try {
+    const files = fs.readdirSync(photosDir).filter(f => /\.(jpg|jpeg|png|webp)$/i.test(f));
+    smartAudioPhotos = files
+      .map(f => ({ f, mtime: fs.statSync(path.join(photosDir, f)).mtime.getTime() }))
+      .sort((a, b) => b.mtime - a.mtime)
+      .slice(0, 3)
+      .map(({ f }) => `/photos/${f}`);
+  } catch {
+    smartAudioPhotos = [];
+  }
+
   return (
     <main className="min-h-screen bg-white">
       <Navbar />
       <Hero />
       <TrustMetrics />
       <ShopByCategory />
+      
+      {/* Smart Audio Showcase - latest 3 images from /photos */}
+      {/* {smartAudioPhotos.length > 0 && (
+        <section className="container-custom py-12">
+          <div className="flex items-center gap-2 mb-6">
+            <h2 className="text-3xl font-bold text-brand-black">Smart</h2>
+            <h2 className="text-3xl font-bold text-brand-orange">Audio</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {smartAudioPhotos.map((src, idx) => (
+              <div key={idx} className="relative aspect-square rounded-2xl overflow-hidden bg-white border border-gray-100">
+                <Image src={src} alt="Smart Audio" fill className="object-contain" />
+              </div>
+            ))}
+          </div>
+        </section>
+      )} */}
+
       <BestSellers />
       <PromotionalBanner />
       <FreshDropsList 

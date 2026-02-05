@@ -12,6 +12,7 @@ export function Navbar() {
   const { data: session } = useSession();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const isAdmin = session?.user?.email?.toLowerCase() === 'rs21rohit@gmail.com';
+  const [cartCount, setCartCount] = useState<number>(0);
 
   // Prevent scrolling when mobile menu is open
   useEffect(() => {
@@ -25,26 +26,42 @@ export function Navbar() {
     };
   }, [isMobileMenuOpen]);
 
+  useEffect(() => {
+    let active = true;
+    async function fetchCartCount() {
+      try {
+        const res = await fetch('/api/cart/count', { cache: 'no-store' });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (active) setCartCount(typeof data.count === 'number' ? data.count : 0);
+      } catch {
+        if (active) setCartCount(0);
+      }
+    }
+    fetchCartCount();
+    return () => { active = false; };
+  }, [session?.user?.email]);
+
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/80 backdrop-blur-md">
+    <nav className="sticky top-0 z-50 w-full border-b border-gray-100 bg-black backdrop-blur-md">
       <div className="container-custom flex h-16 md:h-20 items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-1 z-50">
-           <span className="text-xl md:text-2xl font-bold tracking-tighter text-brand-black italic">BetaEvo</span>
+           <span className="text-xl md:text-2xl font-bold tracking-tighter text-white italic">BetaEvo</span>
         </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-6 lg:gap-8">
-          <Link href="/category/smartwatches" className="text-sm font-medium text-gray-600 hover:text-brand-black transition-colors">
+          <Link href="/category/smartwatches" className="text-sm font-medium text-white hover:text-brand-orange transition-colors">
             Smartwatches
           </Link>
-          <Link href="/category/smart-audio" className="text-sm font-medium text-gray-600 hover:text-brand-black transition-colors">
+          <Link href="/category/smart-audio" className="text-sm font-medium text-white hover:text-brand-orange transition-colors">
             Smart Audio
           </Link>
-          <Link href="/category/smart-glasses" className="text-sm font-medium text-gray-600 hover:text-brand-black transition-colors">
+          <Link href="/category/smart-glasses" className="text-sm font-medium text-white hover:text-brand-orange transition-colors">
             Smart Glasses
           </Link>
-          <Link href="/category/accessories" className="text-sm font-medium text-gray-600 hover:text-brand-black transition-colors">
+          <Link href="/category/accessories" className="text-sm font-medium text-white hover:text-brand-orange transition-colors">
             Accessories
           </Link>
           {isAdmin && (
@@ -62,20 +79,20 @@ export function Navbar() {
 
         {/* Icons */}
         <div className="flex items-center gap-2 md:gap-4 z-50">
-          <Button variant="ghost" size="sm" className="hidden md:flex text-brand-black hover:bg-gray-100">
+          <Button variant="ghost" size="sm" className="hidden md:flex text-white hover:bg-white/10">
             <Search className="h-5 w-5" />
           </Button>
           <Link href="/cart">
-            <Button variant="ghost" size="sm" className="relative text-brand-black hover:bg-gray-100">
+            <Button variant="ghost" size="sm" className="relative text-white hover:bg-white/10">
               <ShoppingBag className="h-5 w-5" />
               {/* Cart Badge - Static for now */}
               <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-brand-orange text-[10px] font-bold text-white">
-                0
+                {cartCount}
               </span>
             </Button>
           </Link>
           <Link href="/profile" className="hidden md:block">
-            <Button variant="ghost" size="sm" className="text-brand-black hover:bg-gray-100">
+            <Button variant="ghost" size="sm" className="text-white hover:bg-white/10">
               <User className="h-5 w-5" />
             </Button>
           </Link>
@@ -84,7 +101,7 @@ export function Navbar() {
           <Button 
             variant="ghost" 
             size="sm" 
-            className="md:hidden text-brand-black hover:bg-gray-100"
+            className="md:hidden text-white hover:bg-white/10"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -100,27 +117,27 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[9999] bg-white md:hidden overflow-y-auto"
+            className="fixed inset-0 z-[9999] bg-black md:hidden overflow-y-auto"
           >
             <div className="container-custom flex h-16 items-center justify-between border-b border-gray-100">
                <Link href="/" className="flex items-center gap-1" onClick={() => setIsMobileMenuOpen(false)}>
-                  <span className="text-xl font-bold tracking-tighter text-brand-black italic">BetaEvo</span>
+                  <span className="text-xl font-bold tracking-tighter text-white italic">BetaEvo</span>
                </Link>
                <Button 
                  variant="ghost" 
                  size="sm" 
                  onClick={() => setIsMobileMenuOpen(false)}
-                 className="text-brand-black hover:bg-gray-100"
+                 className="text-white hover:bg-white/10"
                >
                  <X className="h-5 w-5" />
                </Button>
             </div>
             <div className="container-custom py-6 flex flex-col gap-6">
               <div className="flex flex-col gap-4">
-                <Link href="/category/smartwatches" className="text-lg font-medium text-gray-800 border-b border-gray-100 pb-2" onClick={() => setIsMobileMenuOpen(false)}>Smartwatches</Link>
-                <Link href="/category/smart-audio" className="text-lg font-medium text-gray-800 border-b border-gray-100 pb-2" onClick={() => setIsMobileMenuOpen(false)}>Smart Audio</Link>
-                <Link href="/category/smart-glasses" className="text-lg font-medium text-gray-800 border-b border-gray-100 pb-2" onClick={() => setIsMobileMenuOpen(false)}>Smart Glasses</Link>
-                <Link href="/category/accessories" className="text-lg font-medium text-gray-800 border-b border-gray-100 pb-2" onClick={() => setIsMobileMenuOpen(false)}>Accessories</Link>
+                <Link href="/category/smartwatches" className="text-lg font-medium text-white border-b border-gray-100 pb-2" onClick={() => setIsMobileMenuOpen(false)}>Smartwatches</Link>
+                <Link href="/category/smart-audio" className="text-lg font-medium text-white border-b border-gray-100 pb-2" onClick={() => setIsMobileMenuOpen(false)}>Smart Audio</Link>
+                <Link href="/category/smart-glasses" className="text-lg font-medium text-white border-b border-gray-100 pb-2" onClick={() => setIsMobileMenuOpen(false)}>Smart Glasses</Link>
+                <Link href="/category/accessories" className="text-lg font-medium text-white border-b border-gray-100 pb-2" onClick={() => setIsMobileMenuOpen(false)}>Accessories</Link>
                 {isAdmin && (
                   <Link href="/admin" className="text-lg font-bold text-red-600 border-b border-gray-100 pb-2" onClick={() => setIsMobileMenuOpen(false)}>Admin Panel 🛠️</Link>
                 )}
@@ -128,14 +145,14 @@ export function Navbar() {
                 <Link href="/gifting" className="text-lg font-bold text-brand-copper border-b border-gray-100 pb-2" onClick={() => setIsMobileMenuOpen(false)}>Gifting 🎁</Link>
               </div>
               <div className="flex flex-col gap-4 mt-4">
-                <Link href="/profile" className="flex items-center gap-3 text-lg font-medium text-gray-800" onClick={() => setIsMobileMenuOpen(false)}>
+                <Link href="/profile" className="flex items-center gap-3 text-lg font-medium text-white" onClick={() => setIsMobileMenuOpen(false)}>
                   <User className="h-5 w-5" />
                   My Account
                 </Link>
-                <div className="flex items-center gap-3 text-lg font-medium text-gray-800">
+                {/* <div className="flex items-center gap-3 text-lg font-medium text-gray-800">
                   <Search className="h-5 w-5" />
                   Search
-                </div>
+                </div> */}
               </div>
             </div>
           </motion.div>,

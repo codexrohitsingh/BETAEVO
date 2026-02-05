@@ -129,6 +129,7 @@ model CartItem {
   id        String   @id @default(uuid())
   cartId    String
   productId String
+  productName String?
   quantity  Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -169,4 +170,3 @@ enum OrderStatus {
   DELIVERED
   CANCELLED
 }
-

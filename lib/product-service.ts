@@ -194,6 +194,7 @@ export async function addToCartImpl(productId: string) {
             data: {
                 cartId: cart.id,
                 productId: productId,
+                productName: product.name ?? 'Product',
                 quantity: 1
             }
         });
