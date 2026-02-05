@@ -78,6 +78,13 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             height={500} 
             style={{ objectFit: 'contain' }}
           />
+          <Image
+            src={"/photos/main5.png"} 
+            alt={serializedProduct.name || "Product Image"} 
+            width={6000} 
+            height={500} 
+            style={{ objectFit: 'contain' }}
+          />
         </>
       )}
       {/* Footer Placeholder */}
