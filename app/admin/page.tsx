@@ -80,7 +80,7 @@ export default async function AdminPage() {
             <h3 className="text-lg font-semibold mb-2">Currently Active</h3>
             <ul className="list-disc list-inside text-sm text-gray-700">
               {activeUsers.map((u: { email: string | null; lastSeen: Date }, idx: number) => (
-                <li key={idx}>{u.email} — {new Date(u.lastSeen).toLocaleTimeString()}</li>
+                <li key={(u.email ?? '') + '-' + u.lastSeen.toString()}>{u.email} — {new Date(u.lastSeen).toLocaleTimeString()}</li>
               ))}
             </ul>
           </div>

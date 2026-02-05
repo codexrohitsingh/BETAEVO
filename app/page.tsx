@@ -8,7 +8,7 @@ import { PromotionalBanner } from "@/components/home/promotional-banner";
 import { prisma } from "@/lib/prisma";
 import fs from "fs";
 import path from "path";
-import Image from "next/image";
+
 
 export default async function Home() {
   const newReleases = await prisma.product.findMany({

@@ -71,9 +71,9 @@ export function ShopByCategory() {
           viewport={{ once: false, amount: 0.2 }}
         >
 
-          {categories.map((category, index) => (
+          {categories.map((category) => (
             <motion.div
-              key={index}
+              key={category.name}
               variants={cardVariants} 
               whileHover={{ y: -8, scale: 1.03 }}
               className="group relative aspect-[3/4] rounded-2xl overflow-hidden bg-gray-100 shadow-sm cursor-pointer"

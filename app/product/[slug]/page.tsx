@@ -48,6 +48,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         style={{ objectFit: 'contain' }}
       /> */}
       {serializedProduct.category?.name === "Smart Audio" && (
+   
         <>
           <Image
             src={"/photos/main1.png"} 

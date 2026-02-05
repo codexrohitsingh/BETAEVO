@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ShoppingBag, User, Search, Menu, X } from 'lucide-react';
+import { ShoppingBag, User, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
@@ -41,7 +41,7 @@ export function Navbar() {
     fetchCartCount();
     return () => { active = false; };
   }, [session?.user?.email]);
-  
+
   useEffect(() => {
     let timer: ReturnType<typeof setInterval> | undefined;
     async function ping() {
@@ -51,7 +51,7 @@ export function Navbar() {
     }
     if (session?.user?.email) {
       ping();
-      timer = setInterval(ping, 30000);
+      timer = setInterval(ping, 60000);
     }
     return () => {
       if (timer) clearInterval(timer);
@@ -95,9 +95,6 @@ export function Navbar() {
 
         {/* Icons */}
         <div className="flex items-center gap-2 md:gap-4 z-50">
-          <Button variant="ghost" size="sm" className="hidden md:flex text-white hover:bg-white/10">
-            <Search className="h-5 w-5" />
-          </Button>
           <Link href="/cart">
             <Button variant="ghost" size="sm" className="relative text-white hover:bg-white/10">
               <ShoppingBag className="h-5 w-5" />

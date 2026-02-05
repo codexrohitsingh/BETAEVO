@@ -21,7 +21,7 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
           const isLast = index === items.length - 1;
           
           return (
-            <li key={index} className="flex items-center">
+            <li key={(item.href ?? '') + '-' + item.label} className="flex items-center">
               {index > 0 && (
                 <ChevronRight className="h-4 w-4 mx-2 text-gray-400" />
               )}
