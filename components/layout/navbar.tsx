@@ -41,6 +41,22 @@ export function Navbar() {
     fetchCartCount();
     return () => { active = false; };
   }, [session?.user?.email]);
+  
+  useEffect(() => {
+    let timer: ReturnType<typeof setInterval> | undefined;
+    async function ping() {
+      try {
+        await fetch('/api/presence/ping', { method: 'POST' });
+      } catch {}
+    }
+    if (session?.user?.email) {
+      ping();
+      timer = setInterval(ping, 30000);
+    }
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, [session?.user?.email]);
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-gray-100 bg-black backdrop-blur-md">

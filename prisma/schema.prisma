@@ -20,6 +20,7 @@ model User {
   orders        Order[]
   reviews       Review[]
   sessions      Session[]
+  presence      UserPresence?
 }
 
 model Account {
@@ -169,4 +170,13 @@ enum OrderStatus {
   SHIPPED
   DELIVERED
   CANCELLED
+}
+
+model UserPresence {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  lastSeen  DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([lastSeen])
 }

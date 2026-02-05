@@ -26,6 +26,21 @@ export default async function AdminPage() {
     discountedPrice: p.discountedPrice ? Number(p.discountedPrice) : null,
   }));
 
+  const totalUsers = await prisma.user.count();
+  const windowMs = 5 * 60 * 1000;
+  const since = new Date(Date.now() - windowMs);
+  const activeRows = await prisma.$queryRaw<{ email: string | null; lastSeen: Date }[]>`
+    SELECT u.email, up."lastSeen"
+    FROM "UserPresence" up
+    JOIN "User" u ON u.id = up."userId"
+    WHERE up."lastSeen" >= ${since}
+  `;
+  const activeUsersCount = activeRows.length;
+  const activeUsers = activeRows.map((r: { email: string | null; lastSeen: Date }) => ({
+    email: r.email,
+    lastSeen: r.lastSeen
+  }));
+
   return (
     <div className="container mx-auto p-8">
       <div className="flex justify-between items-center mb-8">
@@ -42,6 +57,34 @@ export default async function AdminPage() {
           <ScanButton />
           <SetupButton />
         </div>
+      </div>
+
+      <div className="mb-8 p-4 bg-gray-100 rounded">
+        <h2 className="text-xl font-semibold mb-2">User Metrics</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="p-4 bg-white rounded shadow">
+            <div className="text-sm text-gray-600">Total Users</div>
+            <div className="text-2xl font-bold">{totalUsers}</div>
+          </div>
+          <div className="p-4 bg-white rounded shadow">
+            <div className="text-sm text-gray-600">Active Users (last 5 min)</div>
+            <div className="text-2xl font-bold">{activeUsersCount}</div>
+          </div>
+          <div className="p-4 bg-white rounded shadow">
+            <div className="text-sm text-gray-600">Heartbeat</div>
+            <div className="text-xs text-gray-500">Navbar pings presence every 60s</div>
+          </div>
+        </div>
+        {activeUsers.length > 0 && (
+          <div className="mt-4">
+            <h3 className="text-lg font-semibold mb-2">Currently Active</h3>
+            <ul className="list-disc list-inside text-sm text-gray-700">
+              {activeUsers.map((u: { email: string | null; lastSeen: Date }, idx: number) => (
+                <li key={idx}>{u.email} — {new Date(u.lastSeen).toLocaleTimeString()}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       <h2 className="text-2xl font-semibold mb-4">Products ({products.length})</h2>
