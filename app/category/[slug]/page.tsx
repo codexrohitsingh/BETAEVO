@@ -38,9 +38,9 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                 {slug === 'smart-audio' ? (
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {[
-                      { name: 'Air Clips — black', image: '/products/air-clips-v3-2.png', href: '/product/air-clips-v3' },
+                      { name: 'Air Clips — Black', image: '/products/air-clips-1.png', href: '/product/air-clips' },
                       { name: 'Air Clips — Grey', image: '/products/air-clips-v2-2.png', href: '/product/air-clips-v2' },
-                      { name: 'Air Clips — Rose Gold',image: '/products/air-clips-1.png', href: '/product/air-clips' },
+                      { name: 'Air Clips — Rose Gold', image: '/products/air-clips-v3-2.png', href: '/product/air-clips-v3' },
                     ].map((p) => (
                       <a key={p.href} href={p.href} className="group relative aspect-square rounded-2xl overflow-hidden bg-white border border-gray-100 flex items-center justify-center">
                         <Image src={p.image} alt={p.name} fill className="object-contain transition-transform duration-300 group-hover:scale-105" />
@@ -95,9 +95,9 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
           slug === 'smart-audio' ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
-                { name: 'Air Clips — black', image: '/products/air-clips-v3-2.png', href: '/product/air-clips-v3' },
+                { name: 'Air Clips — Black', image: '/products/air-clips-1.png', href: '/product/air-clips' },
                 { name: 'Air Clips — Grey', image: '/products/air-clips-v2-2.png', href: '/product/air-clips-v2' },
-                { name: 'Air Clips — Rose Gold',  image: '/products/air-clips-1.png', href: '/product/air-clips'},
+                { name: 'Air Clips — Rose Gold', image: '/products/air-clips-v3-2.png', href: '/product/air-clips-v3' },
               ].map((p) => (
                 <a key={p.href} href={p.href} className="group relative aspect-square rounded-2xl overflow-hidden bg-white border border-gray-100 flex items-center justify-center">
                   <Image src={p.image} alt={p.name} fill className="object-contain transition-transform duration-300 group-hover:scale-105" />

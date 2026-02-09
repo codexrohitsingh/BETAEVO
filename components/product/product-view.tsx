@@ -45,7 +45,7 @@ const COLORS = [
 ];
 
 const AIR_CLIPS_VARIANTS = [
-  { name: 'White', slug: 'air-clips', class: 'bg-white', image: '/products/air-clips-1.png' },
+  { name: 'Black', slug: 'air-clips', class: 'bg-black', image: '/products/air-clips-1.png' },
   { name: 'Grey', slug: 'air-clips-v2', class: 'bg-gray-500', image: '/products/air-clips-v2-2.png' },
   { name: 'Rose Gold', slug: 'air-clips-v3', class: 'bg-[#b76e79]', image: '/products/air-clips-v3-2.png' },
 ];
