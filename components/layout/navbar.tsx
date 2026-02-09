@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { motion } from 'framer-motion';
 import { createPortal } from 'react-dom';
-
+import Image from 'next/image';
 export function Navbar() {
   const { data: session } = useSession();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -62,9 +62,16 @@ export function Navbar() {
     <nav className="sticky top-0 z-50 w-full border-b border-gray-100 bg-black backdrop-blur-md">
       <div className="container-custom flex h-16 md:h-20 items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-1 z-50">
-           <span className="text-xl md:text-2xl font-bold tracking-tighter text-white italic">BetaEvo</span>
+        <Link href="/" className="flex items-center" aria-label="Home">
+          <Image
+            src="/photos/Navbarlogo.png"
+            alt="BetaEvo"
+            width={120}
+            height={32}
+            priority
+          />
         </Link>
+
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-6 lg:gap-8">
@@ -133,8 +140,14 @@ export function Navbar() {
             className="fixed inset-0 z-[9999] bg-black md:hidden overflow-y-auto"
           >
             <div className="container-custom flex h-16 items-center justify-between border-b border-gray-100">
-               <Link href="/" className="flex items-center gap-1" onClick={() => setIsMobileMenuOpen(false)}>
-                  <span className="text-xl font-bold tracking-tighter text-white italic">BetaEvo</span>
+               <Link href="/" className="flex items-center" onClick={() => setIsMobileMenuOpen(false)} aria-label="Home">
+                 <Image
+                   src="/photos/navlogo.png"
+                   alt="BetaEvo"
+                   width={110}
+                   height={28}
+                   priority
+                 />
                </Link>
                <Button 
                  variant="ghost" 
