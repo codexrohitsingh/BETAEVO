@@ -33,8 +33,8 @@ export function TrustMetrics() {
     <section className="py-12 bg-white border-b border-gray-100">
       <div className="container-custom">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {metrics.map((metric) => (
-            <Card key={metric.label} className="bg-white border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300">
+          {metrics.map((metric, index) => (
+            <Card key={index} className="bg-white border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300">
               <CardContent className="flex items-center p-6 space-x-4">
                 <div className="p-3 rounded-full bg-orange-50 text-brand-orange">
                   <metric.icon className="h-6 w-6" />

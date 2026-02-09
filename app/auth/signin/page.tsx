@@ -2,7 +2,6 @@
 
 import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { useState } from "react";
 
 export default function SignInPage() {
@@ -112,13 +111,9 @@ export default function SignInPage() {
       {/* Footer */}
       <p className="mt-10 text-[11px] text-gray-500 leading-relaxed">
         By continuing, you agree to BetaEvo’s{" "}
-        <Link href="/terms" className="underline hover:text-gray-300 transition">
-          Terms
-        </Link>{" "}
+        <a href="#" className="underline hover:text-gray-300 transition">Terms</a>{" "}
         &{" "}
-        <Link href="/privacy" className="underline hover:text-gray-300 transition">
-          Privacy Policy
-        </Link>
+        <a href="#" className="underline hover:text-gray-300 transition">Privacy Policy</a>
       </p>
     </div>
   </div>

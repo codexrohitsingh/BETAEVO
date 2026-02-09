@@ -50,14 +50,14 @@ export default async function AdminPage() {
         </Link>
       </div>
       
-      <div className="mb-8 p-4 bg-gray-100 rounded">
+      {/* <div className="mb-8 p-4 bg-gray-100 rounded">
         <h2 className="text-xl font-semibold mb-2">Actions</h2>
         <p className="text-sm text-gray-600 mb-4">Scan the /public/photos folder to add new products to the database.</p>
         <div className="flex gap-4">
           <ScanButton />
           <SetupButton />
         </div>
-      </div>
+      </div> */}
 
       <div className="mb-8 p-4 bg-gray-100 rounded">
         <h2 className="text-xl font-semibold mb-2">User Metrics</h2>
@@ -80,7 +80,7 @@ export default async function AdminPage() {
             <h3 className="text-lg font-semibold mb-2">Currently Active</h3>
             <ul className="list-disc list-inside text-sm text-gray-700">
               {activeUsers.map((u: { email: string | null; lastSeen: Date }, idx: number) => (
-                <li key={(u.email ?? '') + '-' + u.lastSeen.toString()}>{u.email} — {new Date(u.lastSeen).toLocaleTimeString()}</li>
+                <li key={idx}>{u.email} — {new Date(u.lastSeen).toLocaleTimeString()}</li>
               ))}
             </ul>
           </div>

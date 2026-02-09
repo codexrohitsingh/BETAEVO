@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
+
 const categories = [
   {
     name: "Smartwatches",
@@ -71,9 +72,9 @@ export function ShopByCategory() {
           viewport={{ once: false, amount: 0.2 }}
         >
 
-          {categories.map((category) => (
+          {categories.map((category, index) => (
             <motion.div
-              key={category.name}
+              key={index}
               variants={cardVariants} 
               whileHover={{ y: -8, scale: 1.03 }}
               className="group relative aspect-[3/4] rounded-2xl overflow-hidden bg-gray-100 shadow-sm cursor-pointer"

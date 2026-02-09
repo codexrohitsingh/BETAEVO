@@ -9,13 +9,13 @@ export async function setupAccessories() {
     console.log('Starting Accessories setup...');
 
     // 1. Create or Get "Accessories" Category
-    let category = await prisma.category.findUnique({
+    let accessories = await prisma.category.findUnique({
       where: { slug: 'accessories' }
     });
 
-    if (!category) {
+    if (!accessories) {
       console.log('Creating Accessories category...');
-      category = await prisma.category.create({
+      accessories = await prisma.category.create({
         data: {
           name: 'Accessories',
           slug: 'accessories',
@@ -24,7 +24,22 @@ export async function setupAccessories() {
       });
     }
 
-    console.log('Category ID:', category.id);
+    console.log('Accessories Category ID:', accessories.id);
+
+    // 1b. Create or Get "Smart Audio" Category
+    let smartAudio = await prisma.category.findUnique({
+      where: { slug: 'smart-audio' }
+    });
+    if (!smartAudio) {
+      console.log('Creating Smart Audio category...');
+      smartAudio = await prisma.category.create({
+        data: {
+          name: 'Smart Audio',
+          slug: 'smart-audio'
+        }
+      });
+    }
+    console.log('Smart Audio Category ID:', smartAudio.id);
 
     // 2. Fetch all products to process them individually
     // We need to check names and image paths for each one.
@@ -43,9 +58,19 @@ export async function setupAccessories() {
         let needsUpdate = false;
 
         // Assign Category
-        if (p.categoryId !== category.id) {
-            updates.categoryId = category.id;
-            needsUpdate = true;
+        // Move Air Clips variants to Smart Audio
+        const isAirClips = ['air-clips','air-clips-v2','air-clips-v3'].includes(p.slug);
+        if (isAirClips) {
+            if (p.categoryId !== smartAudio.id) {
+                updates.categoryId = smartAudio.id;
+                needsUpdate = true;
+            }
+        } else {
+            // Otherwise, ensure Accessories for strap products or uncategorized
+            if (p.categoryId !== accessories.id) {
+                updates.categoryId = accessories.id;
+                needsUpdate = true;
+            }
         }
 
         // Fix Image Path
@@ -87,6 +112,7 @@ export async function setupAccessories() {
 
     revalidatePath('/');
     revalidatePath('/category/accessories');
+    revalidatePath('/category/smart-audio');
     
     return { success: true, message: `Setup complete. Updated ${updatedCount} products.` };
   } catch (error) {

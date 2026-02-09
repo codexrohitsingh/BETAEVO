@@ -14,6 +14,24 @@ async function checkAdmin() {
   }
 }
 
+export async function deleteProductImpl(id: string) {
+  await checkAdmin();
+  try {
+    await prisma.$transaction(async (tx) => {
+      await tx.cartItem.deleteMany({ where: { productId: id } });
+      await tx.orderItem.deleteMany({ where: { productId: id } });
+      await tx.review.deleteMany({ where: { productId: id } });
+      await tx.productImage.deleteMany({ where: { productId: id } });
+      await tx.product.delete({ where: { id } });
+    });
+    revalidatePath('/');
+    revalidatePath('/admin');
+    return { success: true };
+  } catch (error) {
+    console.error('Delete failed:', error);
+    return { success: false, error: 'Delete failed' };
+  }
+}
 export async function scanPhotosImpl() {
   await checkAdmin();
   try {

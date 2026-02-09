@@ -45,14 +45,16 @@ const COLORS = [
 ];
 
 const AIR_CLIPS_VARIANTS = [
-  { name: 'Black', slug: 'air-clips-v3', class: 'bg-black', image: '/products/air-clips-v3-2.png' },
+  { name: 'White', slug: 'air-clips', class: 'bg-white', image: '/products/air-clips-1.png' },
   { name: 'Grey', slug: 'air-clips-v2', class: 'bg-gray-500', image: '/products/air-clips-v2-2.png' },
-  { name: 'Light Pink', slug: 'air-clips', class: 'bg-pink-300', image: '/products/air-clips-2.png' },
+  { name: 'Rose Gold', slug: 'air-clips-v3', class: 'bg-[#b76e79]', image: '/products/air-clips-v3-2.png' },
 ];
+const AIR_CLIPS_SLUGS = AIR_CLIPS_VARIANTS.map(v => v.slug);
 
 export function ProductView({ product }: ProductViewProps) {
   const router = useRouter();
   const [buying, setBuying] = useState(false);
+  const isAirClips = (product.category?.slug === 'smart-audio') || (product.slug ? AIR_CLIPS_SLUGS.includes(product.slug) : false);
   
   // Combine main image with additional images
   const allImages = [
@@ -61,10 +63,7 @@ export function ProductView({ product }: ProductViewProps) {
   ].filter(Boolean); // Remove duplicates if necessary, but simple concatenation is usually fine
 
   const [selectedColor, setSelectedColor] = useState(() => {
-    // Only use color selection for accessories/straps or if explicitly needed
-    
-    // For Air Clips (Smart Audio), try to match the current product slug
-    if (product.category?.slug === 'smart-audio') {
+    if (isAirClips) {
         // 1. Try exact slug match (Highest priority)
         const exactMatch = AIR_CLIPS_VARIANTS.find(v => v.slug === product.slug);
         if (exactMatch) return exactMatch.name;
@@ -73,8 +72,6 @@ export function ProductView({ product }: ProductViewProps) {
         const exactIdMatch = AIR_CLIPS_VARIANTS.find(v => v.slug === product.id);
         if (exactIdMatch) return exactIdMatch.name;
 
-        // 3. Fallback: fuzzy match (be careful with substrings)
-        // We only check name inclusion as a last resort, avoiding substring slug/id matching
         const fuzzyMatch = AIR_CLIPS_VARIANTS.find(v => 
             product.name?.toLowerCase().includes(v.name.toLowerCase())
         );
@@ -89,7 +86,7 @@ export function ProductView({ product }: ProductViewProps) {
   // If we have multiple images (like Air Clips), use the carousel logic
   // If we are in "color mode" (Straps), we override the image based on color
   const [overrideImage, setOverrideImage] = useState<string | null>(() => {
-    if (product.category?.slug === 'smart-audio') {
+    if (isAirClips) {
         // 1. Exact Slug Match
         const exactMatch = AIR_CLIPS_VARIANTS.find(v => v.slug === product.slug);
         if (exactMatch) return exactMatch.image;
@@ -98,7 +95,6 @@ export function ProductView({ product }: ProductViewProps) {
         const exactIdMatch = AIR_CLIPS_VARIANTS.find(v => v.slug === product.id);
         if (exactIdMatch) return exactIdMatch.image;
 
-        // 3. Name match
         const nameMatch = AIR_CLIPS_VARIANTS.find(v => 
             product.name?.toLowerCase().includes(v.name.toLowerCase())
         );
@@ -207,10 +203,10 @@ export function ProductView({ product }: ProductViewProps) {
             </div>
             
             <p className="text-gray-500 text-lg leading-relaxed">
-              {product.category?.slug === 'smart-audio' ? "Coming Soon" : (product.description || "Coming Soon")}
+              {isAirClips ? "Coming Soon" : (product.description || "Coming Soon")}
             </p>
 
-            {product.category?.slug === 'smart-audio' && (
+            {isAirClips && (
                 <div className="space-y-2">
                     <h3 className="font-medium text-brand-black">Product Details</h3>
                     <p className="text-gray-500">Coming Soon</p>
@@ -219,7 +215,7 @@ export function ProductView({ product }: ProductViewProps) {
           </div>
 
           {/* Color Selection - For Air Clips (Smart Audio) */}
-          {product.category?.slug === 'smart-audio' && (
+          {isAirClips && (
             <div className="space-y-4">
               <span className="text-lg font-medium text-brand-black">Color</span>
               <div className="flex items-center gap-4">
@@ -254,7 +250,7 @@ export function ProductView({ product }: ProductViewProps) {
           )}
 
           {/* Color Selection - For Straps/Accessories (NOT Smart Audio) */}
-          {product.category?.slug === 'accessories' && (
+          {!isAirClips && product.category?.slug === 'accessories' && (
             <div className="space-y-4">
               <span className="text-lg font-medium text-brand-black">Color</span>
               <div className="flex items-center gap-4">

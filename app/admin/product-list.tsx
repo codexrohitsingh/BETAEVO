@@ -1,6 +1,6 @@
 'use client'
 
-import { updateProduct } from "@/app/actions/product";
+import { updateProduct, deleteProduct } from "@/app/actions/product";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import Image from "next/image";
@@ -33,6 +33,19 @@ function ProductEditor({ product }: { product: AdminProduct }) {
     await updateProduct(product.id, formData);
     setLoading(false);
     alert("Updated!");
+  }
+  
+  async function handleDelete() {
+    const ok = window.confirm("Delete this product? This cannot be undone.");
+    if (!ok) return;
+    setLoading(true);
+    const result = await deleteProduct(product.id);
+    setLoading(false);
+    if (result?.success) {
+      window.location.reload();
+    } else {
+      alert("Failed to delete product");
+    }
   }
 
   return (
@@ -95,9 +108,14 @@ function ProductEditor({ product }: { product: AdminProduct }) {
             />
         </div>
         <div className="flex items-end">
-            <Button type="submit" disabled={loading} className="w-full">
-                {loading ? "Saving..." : "Save Changes"}
-            </Button>
+            <div className="flex w-full gap-2">
+              <Button type="submit" disabled={loading} className="flex-1">
+                  {loading ? "Saving..." : "Save Changes"}
+              </Button>
+              <Button type="button" variant="outline" disabled={loading} onClick={handleDelete}>
+                  Delete
+              </Button>
+            </div>
         </div>
       </form>
     </div>

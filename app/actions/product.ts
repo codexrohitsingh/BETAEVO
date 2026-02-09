@@ -4,7 +4,8 @@ import {
   scanPhotosImpl, 
   updateProductImpl, 
   purchaseProductImpl,
-  addToCartImpl
+  addToCartImpl,
+  deleteProductImpl
 } from '@/lib/product-service';
 
 export async function scanPhotos() {
@@ -23,3 +24,6 @@ export async function addToCart(id: string) {
   return addToCartImpl(id);
 }
 
+export async function deleteProduct(id: string) {
+  return deleteProductImpl(id);
+}

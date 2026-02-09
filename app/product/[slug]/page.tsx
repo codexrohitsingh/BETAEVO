@@ -18,16 +18,23 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     notFound();
   }
 
+
   // Convert Decimals to numbers for client component
   const serializedProduct = {
     ...product,
     price: product.price ? Number(product.price) : null,
     discountedPrice: product.discountedPrice ? Number(product.discountedPrice) : null,
     originalPrice: product.originalPrice ? Number(product.originalPrice) : null,
-    category: product.category ? {
-      name: product.category.name,
-      slug: product.category.slug
-    } : null,
+    category: (() => {
+      const airClipsSlugs = ['air-clips','air-clips-v2','air-clips-v3'];
+      if (airClipsSlugs.includes(product.slug)) {
+        return { name: 'Smart Audio', slug: 'smart-audio' };
+      }
+      return product.category ? {
+        name: product.category.name,
+        slug: product.category.slug
+      } : null;
+    })(),
     images: product.images.map(img => ({
       url: img.url,
       alt: img.alt
