@@ -24,7 +24,7 @@
        : [];
  
      const variants = [
-       { slug: 'air-clips', name: 'Air Clips — Black', image: '/products/air-clips-1.png' },
+       { slug: 'air-clips-v3', name: 'Air Clips — Black', image: '/products/air-clips-v3-2.png' },
        { slug: 'air-clips-v2', name: 'Air Clips — Grey', image: '/products/air-clips-v2-2.png' },
        { slug: 'air-clips-v3', name: 'Air Clips — Rose Gold', image: '/products/air-clips-v3-2.png' },
      ];

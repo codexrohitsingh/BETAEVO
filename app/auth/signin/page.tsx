@@ -2,14 +2,20 @@
 
 import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function SignInPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const params = useSearchParams();
+  const callbackUrl = useMemo(() => {
+    const url = params.get("callbackUrl");
+    return url && url.length > 0 ? url : "/";
+  }, [params]);
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
-    await signIn("google", { callbackUrl: "/" });
+    await signIn("google", { callbackUrl });
   };
 
   return (

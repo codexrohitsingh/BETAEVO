@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import AdminProductList from "./product-list";
 import ScanButton from "./scan-button";
 import SetupButton from "./setup-button";
+import SetupHeadphonesButton from "./setup-headphones-button";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -52,10 +53,11 @@ export default async function AdminPage() {
       
       {/* <div className="mb-8 p-4 bg-gray-100 rounded">
         <h2 className="text-xl font-semibold mb-2">Actions</h2>
-        <p className="text-sm text-gray-600 mb-4">Scan the /public/photos folder to add new products to the database.</p>
-        <div className="flex gap-4">
+        <p className="text-sm text-gray-600 mb-4">Import and categorize products.</p>
+        <div className="flex gap-4 flex-wrap">
           <ScanButton />
           <SetupButton />
+          <SetupHeadphonesButton />
         </div>
       </div> */}
 

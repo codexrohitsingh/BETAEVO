@@ -4,6 +4,8 @@ import { ProductCard } from "@/components/product/product-card";
 import { notFound } from "next/navigation";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import Image from "next/image";
+import fs from "fs";
+import path from "path";
 
 export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -75,6 +77,84 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
       slug: base.slug
     };
   });
+  // Include Headphones if present even if categorized elsewhere, similar to Air Clips
+  if (slug === 'smart-audio') {
+    const existingHeadphones = await prisma.product.findUnique({ where: { slug: 'headphones' } });
+    if (!existingHeadphones) {
+      const sourceDir = path.join(process.cwd(), '..', '..', 'photos');
+      const destDir = path.join(process.cwd(), 'public', 'photos');
+      const files = [
+        { src: 'headphone1_1.png', dest: 'headphones-1.png' },
+        { src: 'headphone1_2.png', dest: 'headphones-2.png' },
+        { src: 'headphone1_3.png', dest: 'headphones-3.png' },
+        { src: 'headphone1_4.png', dest: 'headphones-4.png' },
+      ];
+      if (!fs.existsSync(destDir)) {
+        fs.mkdirSync(destDir, { recursive: true });
+      }
+      let copied = 0;
+      for (const f of files) {
+        const srcPath = path.join(sourceDir, f.src);
+        const destPath = path.join(destDir, f.dest);
+        if (fs.existsSync(srcPath) && !fs.existsSync(destPath)) {
+          fs.copyFileSync(srcPath, destPath);
+          copied++;
+        }
+      }
+      const mainImage = '/photos/headphones-1.png';
+      const haveMain = fs.existsSync(path.join(destDir, 'headphones-1.png'));
+      if (haveMain) {
+        const created = await prisma.product.create({
+          data: {
+            name: 'Headphones',
+            slug: 'headphones',
+            imagePath: mainImage,
+            categoryId: category?.id,
+            stock: 50,
+            price: null,
+            discountedPrice: null,
+            discountPercentage: 0,
+            rating: 4.5,
+            reviewCount: 0,
+            description: 'Premium over-ear headphones'
+          }
+        });
+        const urls = [
+          '/photos/headphones-1.png',
+          '/photos/headphones-2.png',
+          '/photos/headphones-3.png',
+          '/photos/headphones-4.png',
+        ];
+        for (let i = 0; i < urls.length; i++) {
+          const fileExists = fs.existsSync(path.join(destDir, `headphones-${i + 1}.png`));
+          if (!fileExists) continue;
+          await prisma.productImage.create({
+            data: {
+              productId: created.id,
+              publicId: `headphones-${i + 1}`,
+              url: urls[i],
+              alt: `Headphones ${i + 1}`
+            }
+          });
+        }
+      }
+    }
+  }
+  const headphonesRaw = await prisma.product.findUnique({ where: { slug: 'headphones' } });
+  const headphonesForCards: CardProduct[] = headphonesRaw ? [{
+    id: headphonesRaw.id,
+    name: headphonesRaw.name ?? null,
+    imagePath: headphonesRaw.imagePath,
+    description: headphonesRaw.description ?? null,
+    price: headphonesRaw.price ? Number(headphonesRaw.price) : null,
+    discountedPrice: headphonesRaw.discountedPrice ? Number(headphonesRaw.discountedPrice) : null,
+    discountPercentage: headphonesRaw.discountPercentage ?? 0,
+    stock: headphonesRaw.stock ?? 0,
+    rating: headphonesRaw.rating ?? 0,
+    reviewCount: headphonesRaw.reviewCount ?? 0,
+    originalPrice: headphonesRaw.originalPrice ? Number(headphonesRaw.originalPrice) : null,
+    slug: headphonesRaw.slug
+  }] : [];
 
   if (!category) {
     // If category not found in DB, check if it's one of the hardcoded ones and just show empty or "Coming Soon"
@@ -134,14 +214,14 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                   if (slug === 'accessories') {
                     base = base.filter(p => !airClipsSlugs.includes(p.slug));
                   }
-                  // Smart Audio: ensure Air Clips are included even if categorized elsewhere
-                  if (slug === 'smart-audio' && airClipsForCards.length > 0) {
+                  // Smart Audio: ensure Air Clips and Headphones are included even if categorized elsewhere
+                  if (slug === 'smart-audio') {
                     const existingIds = new Set(base.map(p => p.id));
-                    const merged = [
-                      ...base,
-                      ...airClipsForCards.filter(p => !existingIds.has(p.id))
-                    ];
-                    return merged;
+                    const extras = [
+                      ...airClipsForCards,
+                      ...headphonesForCards
+                    ].filter(p => !existingIds.has(p.id));
+                    return [...base, ...extras];
                   }
                   return base;
                 })().map((product) => (

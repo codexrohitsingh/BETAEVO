@@ -54,7 +54,7 @@ const AIR_CLIPS_SLUGS = AIR_CLIPS_VARIANTS.map(v => v.slug);
 export function ProductView({ product }: ProductViewProps) {
   const router = useRouter();
   const [buying, setBuying] = useState(false);
-  const isAirClips = (product.category?.slug === 'smart-audio') || (product.slug ? AIR_CLIPS_SLUGS.includes(product.slug) : false);
+  const isAirClips = product.slug ? AIR_CLIPS_SLUGS.includes(product.slug) : false;
   
   // Combine main image with additional images
   const allImages = [
@@ -161,6 +161,7 @@ export function ProductView({ product }: ProductViewProps) {
               </>
             )}
 
+
             {/* Main Image */}
             <div className="relative w-full h-full p-8">
               <Image
@@ -173,7 +174,6 @@ export function ProductView({ product }: ProductViewProps) {
             </div>
           </div>
         </div>
-
         {/* Right Column - Product Details */}
         <div className="space-y-8">
           {/* Header */}
@@ -195,6 +195,7 @@ export function ProductView({ product }: ProductViewProps) {
                   <span className="text-2xl md:text-3xl font-bold text-gray-400">Coming Soon</span>
               )}
             </div>
+
 
             <div className="flex items-center gap-1">
               <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />

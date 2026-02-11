@@ -66,7 +66,7 @@ export function Navbar() {
           <Image
             src="/photos/Navbarlogo.png"
             alt="BetaEvo"
-            width={120}
+            width={150}
             height={32}
             priority
           />
