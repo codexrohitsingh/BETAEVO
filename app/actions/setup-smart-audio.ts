@@ -23,12 +23,11 @@
        ? fs.readdirSync(productsDir) 
        : [];
  
-     const variants = [
-       { slug: 'air-clips', name: 'Air Clips — Black', image: '/products/air-clips-1.png' },
-       { slug: 'air-clips-v2', name: 'Air Clips — Grey', image: '/products/air-clips-v2-2.png' },
-       { slug: 'air-clips-v3', name: 'Air Clips — Rose Gold', image: '/products/air-clips-v3-2.png' },
-     ];
- 
+         const variants = [
+           { slug: 'air-clips-v3', name: 'Air Clips — Rose Gold', image: '/products/air-clips-1.png' },
+           { slug: 'air-clips-v2', name: 'Air Clips — Grey', image: '/products/air-clips-v2-2.png' },
+           { slug: 'air-clips-v3', name: 'Air Clips — Black', image: '/products/air-clips-v3-2.png' },
+         ]; 
      let createdOrUpdated = 0;
      for (const v of variants) {
        // Only create if image exists

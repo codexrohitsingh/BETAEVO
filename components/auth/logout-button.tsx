@@ -3,6 +3,7 @@
 import { signOut } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import { LogOut } from 'lucide-react';
+import { button } from 'framer-motion/client';
 
 export function LogoutButton() {
   return (

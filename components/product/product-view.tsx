@@ -45,9 +45,9 @@ const COLORS = [
 ];
 
 const AIR_CLIPS_VARIANTS = [
-  { name: 'Black', slug: 'air-clips', class: 'bg-black', image: '/products/air-clips-1.png' },
+  { name: 'Rose Gold', slug: 'air-clips', class: 'bg-[#b76e79]', image: '/products/air-clips-1.png' },
   { name: 'Grey', slug: 'air-clips-v2', class: 'bg-gray-500', image: '/products/air-clips-v2-2.png' },
-  { name: 'Rose Gold', slug: 'air-clips-v3', class: 'bg-[#b76e79]', image: '/products/air-clips-v3-2.png' },
+  { name: 'Black', slug: 'air-clips-v3', class: 'bg-black', image: '/products/air-clips-v3-2.png' },
 ];
 const AIR_CLIPS_SLUGS = AIR_CLIPS_VARIANTS.map(v => v.slug);
 

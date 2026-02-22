@@ -73,6 +73,7 @@ export function Navbar() {
         </Link>
 
 
+
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-6 lg:gap-8">
           <Link href="/category/smartwatches" className="text-sm font-medium text-white hover:text-brand-orange transition-colors">
